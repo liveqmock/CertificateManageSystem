@@ -1,0 +1,309 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ViewConfig>
+  <Arguments/>
+  <Context/>
+  <Model>
+    <DataType name="CertificateTypeGroup">
+      <Property name="creationType">com.hcg.certificatesystem.model.CertificateTypeGroup</Property>
+      <PropertyDef name="id">
+        <Property name="dataType">String</Property>
+      </PropertyDef>
+      <PropertyDef name="certificateTypeGroupName">
+        <Property name="dataType">String</Property>
+      </PropertyDef>
+      <PropertyDef name="levels">
+        <Property name="dataType">int</Property>
+      </PropertyDef>
+      <PropertyDef name="sortType">
+        <Property name="dataType">String</Property>
+      </PropertyDef>
+      <Reference name="certificateTypes">
+        <Property name="dataType">[CertificateType]</Property>
+        <Property name="parameter">$${this.id}</Property>
+        <Property name="dataProvider">certificateTypeGroupDao#getCertificateTypes</Property>
+      </Reference>
+    </DataType>
+    <DataType name="CertificateType">
+      <Property name="creationType">com.hcg.certificatesystem.model.CertificateType</Property>
+      <PropertyDef name="id">
+        <Property name="dataType">String</Property>
+      </PropertyDef>
+      <PropertyDef name="certificateTypeName">
+        <Property name="dataType">String</Property>
+      </PropertyDef>
+      <PropertyDef name="level">
+        <Property name="dataType">int</Property>
+      </PropertyDef>
+      <PropertyDef name="hasValidPeriod">
+        <Property name="dataType">boolean</Property>
+      </PropertyDef>
+      <PropertyDef name="validPeriod">
+        <Property name="dataType">int</Property>
+      </PropertyDef>
+      <PropertyDef name="hasCheckPeriod">
+        <Property name="dataType">boolean</Property>
+      </PropertyDef>
+      <PropertyDef name="checkPeriod">
+        <Property name="dataType">int</Property>
+      </PropertyDef>
+      <PropertyDef name="hasExceedByAge">
+        <Property name="dataType">boolean</Property>
+      </PropertyDef>
+      <PropertyDef name="maleExceedByAge">
+        <Property name="dataType">int</Property>
+      </PropertyDef>
+      <PropertyDef name="femaleExeedByAge">
+        <Property name="dataType">int</Property>
+      </PropertyDef>
+      <Reference name="certificateOrganization">
+        <Property name="dataType">CertificateOrganization</Property>
+        <Property name="dataProvider">certificateTypeDao#getCertificateOrganization</Property>
+        <Property name="parameter">$${this.id}</Property>
+      </Reference>
+      <Reference name="certificateParameters">
+        <Property name="dataType">[CertificateParameter]</Property>
+        <Property name="dataProvider">certificateTypeDao#getCertificateParameter</Property>
+        <Property name="parameter">$${this.id}</Property>
+      </Reference>
+    </DataType>
+    <DataType name="CertificateOrganization">
+      <Property name="creationType">com.hcg.certificatesystem.model.CertificateOrganization</Property>
+      <Property name="defaultDisplayProperty">organizationName</Property>
+      <PropertyDef name="id">
+        <Property name="dataType">String</Property>
+      </PropertyDef>
+      <PropertyDef name="organizationName">
+        <Property name="dataType">String</Property>
+      </PropertyDef>
+      <PropertyDef name="organizationAddress">
+        <Property name="dataType">String</Property>
+      </PropertyDef>
+    </DataType>
+    <DataType name="CertificateParameter">
+      <Property name="creationType">com.hcg.certificatesystem.model.CertificateParameter</Property>
+      <PropertyDef name="id">
+        <Property name="dataType">String</Property>
+      </PropertyDef>
+      <PropertyDef name="certificateParameterName">
+        <Property name="dataType">String</Property>
+      </PropertyDef>
+      <PropertyDef name="valueType">
+        <Property name="dataType">String</Property>
+      </PropertyDef>
+      <PropertyDef name="valueTypeParam">
+        <Property name="dataType">String</Property>
+      </PropertyDef>
+    </DataType>
+  </Model>
+  <View>
+    <DataSet id="datasetCertificateType">
+      <Property name="dataProvider">certificateTypeDao#getAll</Property>
+      <Property name="dataType">[CertificateType]</Property>
+    </DataSet>
+    <DataSet id="dataSetCertificateTypeGroup">
+      <Property name="dataType">[CertificateTypeGroup]</Property>
+      <Property name="dataProvider">certificateTypeGroupDao#getAll</Property>
+    </DataSet>
+    <DataSet id="dataSetCertificateOrganization">
+      <Property name="dataType">[CertificateOrganization]</Property>
+      <Property name="dataProvider">certificateOrganizationDao#getAll</Property>
+    </DataSet>
+    <DataSetDropDown id="dsDropDownCertificateOrganization">
+      <Property name="dataSet">dataSetCertificateOrganization</Property>
+      <Property name="displayProperty">organizationName</Property>
+      <Property name="editable">true</Property>
+    </DataSetDropDown>
+    <SplitPanel>
+      <Property name="position">260</Property>
+      <MainControl>
+        <Container>
+          <SplitPanel>
+            <Property name="direction">bottom</Property>
+            <Property name="position">380</Property>
+            <MainControl>
+              <Container>
+                <UpdateAction id="updateActionCertificateType">
+                  <Property name="dataResolver">certificateTypeGroupDao#saveCertificateTypeGroups</Property>
+                  <Property name="executingMessage">正在保存...</Property>
+                  <Property name="successMessage">保存成功!</Property>
+                  <UpdateItem>
+                    <Property name="dataSet">dataSetCertificateTypeGroup</Property>
+                  </UpdateItem>
+                </UpdateAction>
+                <ToolBar>
+                  <DataPilot>
+                    <Property name="itemCodes">pages,+,-,x</Property>
+                    <Property name="dataSet">dataSetCertificateTypeGroup</Property>
+                    <Property name="dataPath">!currentCertificateTypeGroup.certificateTypes</Property>
+                  </DataPilot>
+                  <Separator/>
+                  <ToolBarButton>
+                    <Property name="caption">编辑</Property>
+                    <Property name="icon">url(>skin>common/icons.gif) -200px 0px</Property>
+                  </ToolBarButton>
+                  <ToolBarButton>
+                    <Property name="caption">保存</Property>
+                    <Property name="icon">url(>skin>common/icons.gif) -140px -20px</Property>
+                    <Property name="action">updateActionCertificateType</Property>
+                  </ToolBarButton>
+                </ToolBar>
+                <DataGrid id="dataGridCertificateType">
+                  <Property name="dataSet">dataSetCertificateTypeGroup</Property>
+                  <Property name="dataPath">!currentCertificateTypeGroup.certificateTypes</Property>
+                  <Property name="selectionMode">multiRows</Property>
+                  <Property name="stretchColumnsMode">off</Property>
+                  <Property name="fixedColumnCount">5</Property>
+                  <IndicatorColumn/>
+                  <RowSelectorColumn/>
+                  <DataColumn>
+                    <Property name="name">certificateTypeName</Property>
+                    <Property name="property">certificateTypeName</Property>
+                    <Property name="caption">证书类型名称</Property>
+                    <Property name="width">160</Property>
+                    <Editor/>
+                  </DataColumn>
+                  <DataColumn>
+                    <Property name="name">level</Property>
+                    <Property name="property">level</Property>
+                    <Property name="caption">等级</Property>
+                    <Property name="align">center</Property>
+                    <Property name="width">50</Property>
+                    <Editor>
+                      <NumberSpinner/>
+                    </Editor>
+                  </DataColumn>
+                  <DataColumn>
+                    <Property name="name">certificateOrganization</Property>
+                    <Property name="property">certificateOrganization</Property>
+                    <Property name="trigger">dsDropDownCertificateOrganization</Property>
+                    <Property name="caption">发证单位</Property>
+                    <Property name="width">180</Property>
+                    <Property name="align">center</Property>
+                    <Editor/>
+                  </DataColumn>
+                  <ColumnGroup>
+                    <Property name="caption">有效期设置</Property>
+                    <DataColumn name="hasValidPeriod">
+                      <Property name="property">hasValidPeriod</Property>
+                      <Property name="caption">有效期要求</Property>
+                    </DataColumn>
+                    <DataColumn>
+                      <Property name="name">validPeriod</Property>
+                      <Property name="property">validPeriod</Property>
+                      <Property name="caption">周期</Property>
+                      <Property name="align">center</Property>
+                      <Editor>
+                        <NumberSpinner/>
+                      </Editor>
+                    </DataColumn>
+                  </ColumnGroup>
+                  <ColumnGroup>
+                    <Property name="caption">复审周期设置</Property>
+                    <DataColumn name="hasCheckPeriod">
+                      <Property name="property">hasCheckPeriod</Property>
+                      <Property name="caption">复审要求</Property>
+                    </DataColumn>
+                    <DataColumn name="checkPeriod">
+                      <Property name="property">checkPeriod</Property>
+                      <Property name="caption">周期</Property>
+                      <Property name="align">center</Property>
+                      <Editor>
+                        <NumberSpinner/>
+                      </Editor>
+                    </DataColumn>
+                  </ColumnGroup>
+                  <ColumnGroup>
+                    <Property name="caption">年龄限制设置</Property>
+                    <DataColumn name="hasExceedByAge">
+                      <Property name="property">hasExceedByAge</Property>
+                      <Property name="caption">年龄限制要求</Property>
+                    </DataColumn>
+                    <DataColumn name="maleExceedByAge">
+                      <Property name="property">maleExceedByAge</Property>
+                      <Property name="caption">男性年限</Property>
+                      <Property name="align">center</Property>
+                      <Editor>
+                        <NumberSpinner/>
+                      </Editor>
+                    </DataColumn>
+                    <DataColumn name="femaleExeedByAge">
+                      <Property name="property">femaleExeedByAge</Property>
+                      <Property name="caption">女性年限</Property>
+                      <Property name="align">center</Property>
+                      <Editor>
+                        <NumberSpinner/>
+                      </Editor>
+                    </DataColumn>
+                  </ColumnGroup>
+                </DataGrid>
+              </Container>
+            </MainControl>
+            <SideControl>
+              <Container>
+                <ToolBar>
+                  <DataPilot>
+                    <Property name="itemCodes">+,-,x</Property>
+                    <Property name="dataPath">!currentCertificateTypeGroup.#certificateTypes.certificateParameters</Property>
+                    <Property name="dataSet">dataSetCertificateTypeGroup</Property>
+                  </DataPilot>
+                  <Separator/>
+                  <ToolBarButton>
+                    <Property name="caption">编辑</Property>
+                    <Property name="icon">url(>skin>common/icons.gif) -200px 0px</Property>
+                  </ToolBarButton>
+                </ToolBar>
+                <DataGrid id="dataGridCertificateParameter">
+                  <Property name="dataSet">dataSetCertificateTypeGroup</Property>
+                  <Property name="dataPath">!currentCertificateTypeGroup.#certificateTypes.certificateParameters</Property>
+                  <DataColumn>
+                    <Property name="name">certificateParameterName</Property>
+                    <Property name="property">certificateParameterName</Property>
+                    <Property name="caption">属性名称</Property>
+                    <Editor/>
+                  </DataColumn>
+                  <DataColumn>
+                    <Property name="name">valueType</Property>
+                    <Property name="property">valueType</Property>
+                    <Property name="trigger">dropDownValueType</Property>
+                    <Property name="caption">控件类型</Property>
+                    <Editor/>
+                  </DataColumn>
+                  <DataColumn name="valueTypeParam">
+                    <Property name="property">valueTypeParam</Property>
+                    <Property name="caption">控件参数</Property>
+                  </DataColumn>
+                </DataGrid>
+              </Container>
+            </SideControl>
+          </SplitPanel>
+        </Container>
+      </MainControl>
+      <SideControl>
+        <Container>
+          <DataTree id="CertificateTypeGroupTree">
+            <Property name="dataSet">dataSetCertificateTypeGroup</Property>
+            <Property name="currentNodeDataPath">currentCertificateTypeGroup</Property>
+            <BindingConfigs>
+              <BindingConfig>
+                <Property name="name">certificateTypeGroups</Property>
+                <Property name="labelProperty">certificateTypeGroupName</Property>
+                <Property name="recursive">false</Property>
+                <Property name="icon">url(>skin>common/icons.gif) -260px -40px</Property>
+              </BindingConfig>
+            </BindingConfigs>
+          </DataTree>
+        </Container>
+      </SideControl>
+    </SplitPanel>
+    <ListDropDown id="dropDownValueType">
+      <Property name="items">
+        <Collection>
+          <Value>TextEditor</Value>
+          <Value>CheckBox</Value>
+          <Value>NumberSpinner</Value>
+          <Value>DateTimeSpinner</Value>
+        </Collection>
+      </Property>
+    </ListDropDown>
+  </View>
+</ViewConfig>

@@ -1,0 +1,431 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ViewConfig>
+  <Arguments/>
+  <Context/>
+  <Model>
+    <DataType name="Department" parent="$dataTypeDept">
+      <Property name="creationType">com.bstek.bdf2.core.model.DefaultDept</Property>
+      <PropertyDef name="id">
+        <Property name="dataType">String</Property>
+      </PropertyDef>
+      <PropertyDef name="name">
+        <Property name="dataType">String</Property>
+      </PropertyDef>
+      <PropertyDef name="desc">
+        <Property name="dataType">String</Property>
+      </PropertyDef>
+      <PropertyDef name="companyId">
+        <Property name="dataType">String</Property>
+      </PropertyDef>
+      <PropertyDef name="createDate">
+        <Property name="dataType">Date</Property>
+      </PropertyDef>
+      <PropertyDef name="parentId">
+        <Property name="dataType">String</Property>
+      </PropertyDef>
+      <Reference name="children">
+        <Property name="dataProvider">bdf2.deptSelect#loadDepts</Property>
+        <Property name="dataType">[Department]</Property>
+        <Property name="parameter">$${this.id}</Property>
+      </Reference>
+    </DataType>
+    <DataType name="User">
+      <Property name="creationType">com.bstek.bdf2.core.model.DefaultUser</Property>
+      <PropertyDef name="username">
+        <Property name="dataType">String</Property>
+      </PropertyDef>
+      <PropertyDef name="password">
+        <Property name="dataType">String</Property>
+      </PropertyDef>
+      <PropertyDef name="salt">
+        <Property name="dataType">String</Property>
+      </PropertyDef>
+      <PropertyDef name="cname">
+        <Property name="dataType">String</Property>
+      </PropertyDef>
+      <PropertyDef name="ename">
+        <Property name="dataType">String</Property>
+      </PropertyDef>
+      <PropertyDef name="male">
+        <Property name="dataType">boolean</Property>
+      </PropertyDef>
+      <PropertyDef name="enabled">
+        <Property name="dataType">boolean</Property>
+      </PropertyDef>
+      <PropertyDef name="administrator">
+        <Property name="dataType">boolean</Property>
+      </PropertyDef>
+      <PropertyDef name="birthday">
+        <Property name="dataType">Date</Property>
+      </PropertyDef>
+      <PropertyDef name="mobile">
+        <Property name="dataType">String</Property>
+      </PropertyDef>
+      <PropertyDef name="address">
+        <Property name="dataType">String</Property>
+      </PropertyDef>
+      <PropertyDef name="email">
+        <Property name="dataType">String</Property>
+      </PropertyDef>
+      <PropertyDef name="companyId">
+        <Property name="dataType">String</Property>
+      </PropertyDef>
+      <PropertyDef name="createDate">
+        <Property name="dataType">Date</Property>
+      </PropertyDef>
+    </DataType>
+    <DataType name="CertificateType">
+      <Property name="creationType">com.hcg.certificatesystem.model.CertificateType</Property>
+      <PropertyDef name="id">
+        <Property name="dataType">String</Property>
+      </PropertyDef>
+      <PropertyDef name="certificateTypeName">
+        <Property name="dataType">String</Property>
+      </PropertyDef>
+      <PropertyDef name="level">
+        <Property name="dataType">int</Property>
+      </PropertyDef>
+      <PropertyDef name="certificateTypeGroup">
+        <Property name="dataType">CertificateTypeGroup</Property>
+      </PropertyDef>
+      <PropertyDef name="certificateTypeGroupName">
+        <Property name="propertyPath">certificateTypeGroup.certificateTypeGroupName</Property>
+        <Property name="submittable">false</Property>
+      </PropertyDef>
+      <PropertyDef name="certificateTypeGroupSortType">
+        <Property name="propertyPath">certificateTypeGroup.sortType</Property>
+        <Property name="submittable">false</Property>
+      </PropertyDef>
+      <PropertyDef name="certificateOrganization">
+        <Property name="dataType">CertificateOrganization</Property>
+      </PropertyDef>
+      <PropertyDef name="certificateOrganizationName">
+        <Property name="propertyPath">certificateOrganization.organizationName</Property>
+      </PropertyDef>
+      <PropertyDef name="certificateOrganizationAddress">
+        <Property name="propertyPath">certificateOrganization.organizationAddress</Property>
+        <Property name="submittable">false</Property>
+      </PropertyDef>
+      <PropertyDef name="position">
+        <Property name="dataType">Position</Property>
+        <Property name="submittable">false</Property>
+      </PropertyDef>
+    </DataType>
+    <DataType name="CertificateTypeGroup">
+      <Property name="creationType">com.hcg.certificatesystem.model.CertificateTypeGroup</Property>
+      <PropertyDef name="id">
+        <Property name="dataType">String</Property>
+      </PropertyDef>
+      <PropertyDef name="certificateTypeGroupName">
+        <Property name="dataType">String</Property>
+      </PropertyDef>
+      <PropertyDef name="levels">
+        <Property name="dataType">int</Property>
+      </PropertyDef>
+      <PropertyDef name="sortType">
+        <Property name="dataType">String</Property>
+      </PropertyDef>
+    </DataType>
+    <DataType name="CertificateOrganization">
+      <Property name="creationType">com.hcg.certificatesystem.model.CertificateOrganization</Property>
+      <Property name="defaultDisplayProperty">organizationName</Property>
+      <PropertyDef name="id">
+        <Property name="dataType">String</Property>
+      </PropertyDef>
+      <PropertyDef name="organizationName">
+        <Property name="dataType">String</Property>
+      </PropertyDef>
+      <PropertyDef name="organizationAddress">
+        <Property name="dataType">String</Property>
+      </PropertyDef>
+    </DataType>
+    <DataType name="Position">
+      <Property name="creationType">com.bstek.bdf2.core.model.DefaultPosition</Property>
+      <PropertyDef name="id">
+        <Property name="dataType">String</Property>
+      </PropertyDef>
+      <PropertyDef name="name">
+        <Property name="dataType">String</Property>
+      </PropertyDef>
+      <PropertyDef name="desc">
+        <Property name="dataType">String</Property>
+      </PropertyDef>
+      <PropertyDef name="companyId">
+        <Property name="dataType">String</Property>
+      </PropertyDef>
+      <PropertyDef name="createDate">
+        <Property name="dataType">Date</Property>
+      </PropertyDef>
+    </DataType>
+  </Model>
+  <View>
+    <SplitPanel>
+      <Property name="position">380</Property>
+      <MainControl>
+        <Container>
+          <TabControl>
+            <ControlTab>
+              <Property name="caption">上岗应持证书</Property>
+              <ToolBar>
+                <DataPilot>
+                  <Property name="itemCodes">pages</Property>
+                  <Property name="dataSet">dsCertificateType</Property>
+                </DataPilot>
+              </ToolBar>
+              <DataGrid id="dgCertificateType">
+                <Property name="dataSet">dsCertificateType</Property>
+                <Property name="readOnly">true</Property>
+                <Property name="stretchColumnsMode">off</Property>
+                <Property name="fixedColumnCount">1</Property>
+                <DataColumn name="id">
+                  <Property name="property">id</Property>
+                  <Property name="visible">false</Property>
+                </DataColumn>
+                <DataColumn name="certificateTypeName">
+                  <Property name="property">certificateTypeName</Property>
+                  <Property name="caption">证书类型名称</Property>
+                  <Property name="align">center</Property>
+                  <Property name="width">160</Property>
+                </DataColumn>
+                <DataColumn>
+                  <Property name="property">position.name</Property>
+                  <Property name="name">position</Property>
+                  <Property name="dataType">String</Property>
+                  <Property name="caption">证书需求岗位</Property>
+                  <Property name="align">center</Property>
+                  <Property name="width">120</Property>
+                  <Editor/>
+                </DataColumn>
+                <DataColumn name="level">
+                  <Property name="property">level</Property>
+                  <Property name="caption">证书等级</Property>
+                  <Property name="align">center</Property>
+                  <Property name="width">60</Property>
+                </DataColumn>
+                <ColumnGroup>
+                  <Property name="caption">证书组信息</Property>
+                  <DataColumn name="certificateTypeGroup">
+                    <Property name="property">certificateTypeGroup</Property>
+                    <Property name="visible">false</Property>
+                  </DataColumn>
+                  <DataColumn name="certificateTypeGroupName">
+                    <Property name="property">certificateTypeGroupName</Property>
+                    <Property name="caption">所属证书组</Property>
+                    <Property name="align">center</Property>
+                    <Property name="width">150</Property>
+                  </DataColumn>
+                  <DataColumn name="certificateTypeGroupSortType">
+                    <Property name="property">certificateTypeGroupSortType</Property>
+                    <Property name="caption">等级排序方式</Property>
+                    <Property name="align">center</Property>
+                    <Property name="width">90</Property>
+                  </DataColumn>
+                </ColumnGroup>
+                <ColumnGroup>
+                  <Property name="caption">发证单位信息</Property>
+                  <DataColumn name="certificateOrganization">
+                    <Property name="property">certificateOrganization</Property>
+                    <Property name="visible">false</Property>
+                  </DataColumn>
+                  <DataColumn name="certificateOrganizationName">
+                    <Property name="property">certificateOrganizationName</Property>
+                    <Property name="caption">发证单位</Property>
+                    <Property name="width">150</Property>
+                    <Property name="align">center</Property>
+                  </DataColumn>
+                  <DataColumn name="certificateOrganizationAddress">
+                    <Property name="property">certificateOrganizationAddress</Property>
+                    <Property name="caption">地址</Property>
+                    <Property name="align">center</Property>
+                    <Property name="width">150</Property>
+                  </DataColumn>
+                </ColumnGroup>
+              </DataGrid>
+            </ControlTab>
+            <ControlTab>
+              <Property name="caption">缺失的应持证书</Property>
+              <ToolBar>
+                <DataPilot>
+                  <Property name="itemCodes">pages</Property>
+                  <Property name="dataSet">dsCertificateType2</Property>
+                </DataPilot>
+              </ToolBar>
+              <DataGrid id="dgCertificateTypeNotYetHas">
+                <Property name="dataSet">dsCertificateType2</Property>
+                <Property name="readOnly">true</Property>
+                <Property name="stretchColumnsMode">off</Property>
+                <Property name="fixedColumnCount">1</Property>
+                <DataColumn name="id">
+                  <Property name="property">id</Property>
+                  <Property name="visible">false</Property>
+                </DataColumn>
+                <DataColumn name="certificateTypeName">
+                  <Property name="property">certificateTypeName</Property>
+                  <Property name="caption">证书类型名称</Property>
+                  <Property name="align">center</Property>
+                  <Property name="width">160</Property>
+                </DataColumn>
+                <DataColumn>
+                  <Property name="property">position.name</Property>
+                  <Property name="name">position</Property>
+                  <Property name="dataType">String</Property>
+                  <Property name="caption">证书需求岗位</Property>
+                  <Property name="align">center</Property>
+                  <Property name="width">120</Property>
+                  <Editor/>
+                </DataColumn>
+                <DataColumn name="level">
+                  <Property name="property">level</Property>
+                  <Property name="caption">证书等级</Property>
+                  <Property name="align">center</Property>
+                  <Property name="width">60</Property>
+                </DataColumn>
+                <ColumnGroup>
+                  <Property name="caption">证书组信息</Property>
+                  <DataColumn name="certificateTypeGroup">
+                    <Property name="property">certificateTypeGroup</Property>
+                    <Property name="visible">false</Property>
+                  </DataColumn>
+                  <DataColumn name="certificateTypeGroupName">
+                    <Property name="property">certificateTypeGroupName</Property>
+                    <Property name="caption">所属证书组</Property>
+                    <Property name="align">center</Property>
+                    <Property name="width">150</Property>
+                  </DataColumn>
+                  <DataColumn name="certificateTypeGroupSortType">
+                    <Property name="property">certificateTypeGroupSortType</Property>
+                    <Property name="caption">等级排序方式</Property>
+                    <Property name="align">center</Property>
+                    <Property name="width">90</Property>
+                  </DataColumn>
+                </ColumnGroup>
+                <ColumnGroup>
+                  <Property name="caption">发证单位信息</Property>
+                  <DataColumn name="certificateOrganization">
+                    <Property name="property">certificateOrganization</Property>
+                    <Property name="visible">false</Property>
+                  </DataColumn>
+                  <DataColumn name="certificateOrganizationName">
+                    <Property name="property">certificateOrganizationName</Property>
+                    <Property name="caption">发证单位</Property>
+                    <Property name="width">150</Property>
+                    <Property name="align">center</Property>
+                  </DataColumn>
+                  <DataColumn name="certificateOrganizationAddress">
+                    <Property name="property">certificateOrganizationAddress</Property>
+                    <Property name="caption">地址</Property>
+                    <Property name="align">center</Property>
+                    <Property name="width">150</Property>
+                  </DataColumn>
+                </ColumnGroup>
+              </DataGrid>
+            </ControlTab>
+          </TabControl>
+        </Container>
+      </MainControl>
+      <SideControl>
+        <SplitPanel>
+          <Property name="position">190</Property>
+          <MainControl>
+            <DataTree id="UserTree">
+              <ClientEvent name="onClick">var UserTree=view.get(&quot;#UserTree&quot;);&#xD;
+var currentUser=UserTree.get(&quot;currentEntity&quot;);&#xD;
+var userId=currentUser.get(&quot;username&quot;);&#xD;
+var dsCertificateType=view.get(&quot;#dsCertificateType&quot;);&#xD;
+var dsCertificateType2=view.get(&quot;#dsCertificateType2&quot;);&#xD;
+&#xD;
+dsCertificateType.set(&quot;parameter&quot;, {userId:userId}).flushAsync();&#xD;
+dsCertificateType2.set(&quot;parameter&quot;, {userId:userId}).flushAsync();</ClientEvent>
+              <Property name="dataSet">dsUser</Property>
+              <Property name="allowNoCurrent">true</Property>
+              <BindingConfigs>
+                <BindingConfig>
+                  <Property name="name">name</Property>
+                  <Property name="icon">url(>skin>common/icons.gif) -140px -100px</Property>
+                  <Property name="recursive">true</Property>
+                  <Property name="labelProperty">cname</Property>
+                </BindingConfig>
+              </BindingConfigs>
+            </DataTree>
+          </MainControl>
+          <SideControl>
+            <DataTree id="DepartmentTree" layoutConstraint="left">
+              <ClientEvent name="onContextMenu">view.id(&quot;menuDepts&quot;).show({
+	position:{
+		left:arg.event.pageX,
+		top:arg.event.pageY
+	}
+});</ClientEvent>
+              <ClientEvent name="onDraggingSourceDrop">var draggingInfo=arg.draggingInfo;
+if(!draggingInfo){
+	return true;
+}
+var parentNode=draggingInfo.get(&quot;targetObject&quot;);
+if(!parentNode){
+	return true;
+}
+var parentId=parentNode.get(&quot;data.id&quot;);
+parentNode.get(&quot;nodes&quot;).each(function(node){
+	var data=node.get(&quot;data&quot;);
+	data.set(&quot;parentId&quot;,parentId);
+});
+view.id(&quot;updateActionSaveDepts&quot;).execute();</ClientEvent>
+              <ClientEvent name="beforeCurrentChange">var node=arg.oldCurrent;
+if(node){
+	var data=node.get(&quot;data&quot;);
+	if(data &amp;&amp; data.state!=dorado.Entity.STATE_NONE){
+		view.id(&quot;updateActionSaveDepts&quot;).execute();
+		if(data.validate()!=&quot;ok&quot;){
+			arg.processDefault=false;
+		}
+	}
+}</ClientEvent>
+              <ClientEvent name="onClick">var DepartmentTree=view.get(&quot;#DepartmentTree&quot;);
+var currentDepartmentEntity=DepartmentTree.get(&quot;currentEntity&quot;);
+var departmentId=currentDepartmentEntity.get(&quot;id&quot;);
+var dsUser=view.get(&quot;#dsUser&quot;);
+
+dsUser.set(&quot;parameter&quot;, {id:departmentId}).flushAsync();
+
+</ClientEvent>
+              <Property name="dataSet">dsDepartment</Property>
+              <Property name="defaultIcon"> url(>skin>common/icons.gif) -260px -40px</Property>
+              <Property name="currentNodeDataPath">CurrentDept</Property>
+              <Property name="draggable">true</Property>
+              <Property name="dragTags">dept</Property>
+              <Property name="droppableTags">dept</Property>
+              <Property name="droppable">true</Property>
+              <Property name="dropMode">onOrInsertItems</Property>
+              <Property name="allowNoCurrent">true</Property>
+              <BindingConfigs>
+                <BindingConfig>
+                  <Property name="recursive">true</Property>
+                  <Property name="expandLevel">1</Property>
+                  <Property name="labelProperty">name</Property>
+                  <Property name="icon">url(>skin>common/icons.gif) 0px -20px</Property>
+                  <Property name="childrenProperty">children</Property>
+                </BindingConfig>
+              </BindingConfigs>
+            </DataTree>
+          </SideControl>
+        </SplitPanel>
+      </SideControl>
+    </SplitPanel>
+    <DataSet id="dsDepartment">
+      <Property name="dataType">[Department]</Property>
+      <Property name="dataProvider">bdf2.deptMaintain#loadDepts</Property>
+    </DataSet>
+    <DataSet id="dsUser">
+      <Property name="dataType">[User]</Property>
+      <Property name="dataProvider">userDao#getUsersByDepartment</Property>
+    </DataSet>
+    <DataSet id="dsCertificateType">
+      <Property name="dataProvider">certificateTypeRequiredDao#getRequiredCertificateTypesByUser</Property>
+      <Property name="dataType">[CertificateType]</Property>
+    </DataSet>
+    <DataSet id="dsCertificateType2">
+      <Property name="dataProvider">certificateTypeRequiredDao#getNotYetHasCertificateTypes</Property>
+      <Property name="dataType">[CertificateType]</Property>
+    </DataSet>
+  </View>
+</ViewConfig>

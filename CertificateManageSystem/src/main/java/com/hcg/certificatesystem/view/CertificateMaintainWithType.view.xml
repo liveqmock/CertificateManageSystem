@@ -1,0 +1,672 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ViewConfig>
+  <Arguments/>
+  <Context/>
+  <Model>
+    <DataType name="CertificateTypeGroup">
+      <Property name="creationType">com.hcg.certificatesystem.model.CertificateTypeGroup</Property>
+      <PropertyDef name="id">
+        <Property name="dataType">String</Property>
+      </PropertyDef>
+      <PropertyDef name="certificateTypeGroupName">
+        <Property name="dataType">String</Property>
+      </PropertyDef>
+      <PropertyDef name="levels">
+        <Property name="dataType">int</Property>
+      </PropertyDef>
+      <PropertyDef name="sortType">
+        <Property name="dataType">String</Property>
+      </PropertyDef>
+      <Reference name="certificateTypes">
+        <Property name="dataProvider">certificateTypeGroupDao#getCertificateTypes</Property>
+        <Property name="dataType">[CertificateType]</Property>
+        <Property name="parameter">$${this.id}</Property>
+      </Reference>
+    </DataType>
+    <DataType name="CertificateType">
+      <Property name="creationType">com.hcg.certificatesystem.model.CertificateType</Property>
+      <PropertyDef name="id">
+        <Property name="dataType">String</Property>
+      </PropertyDef>
+      <PropertyDef name="certificateTypeName">
+        <Property name="dataType">String</Property>
+      </PropertyDef>
+      <PropertyDef name="certificateTypeGroup">
+        <Property name="dataType">CertificateTypeGroup</Property>
+      </PropertyDef>
+      <PropertyDef name="level">
+        <Property name="dataType">int</Property>
+      </PropertyDef>
+      <PropertyDef name="validPeriod">
+        <Property name="dataType">int</Property>
+      </PropertyDef>
+      <PropertyDef name="checkPeriod">
+        <Property name="dataType">int</Property>
+      </PropertyDef>
+      <PropertyDef name="isExceedByAge">
+        <Property name="dataType">boolean</Property>
+      </PropertyDef>
+      <PropertyDef name="maleExceedByAge">
+        <Property name="dataType">int</Property>
+      </PropertyDef>
+      <PropertyDef name="femaleExeedByAge">
+        <Property name="dataType">int</Property>
+      </PropertyDef>
+      <Reference name="certificates">
+        <Property name="dataProvider">certificateTypeDao#getCertificates</Property>
+        <Property name="parameter">$${this.id}</Property>
+        <Property name="dataType">[Certificate]</Property>
+      </Reference>
+      <Reference name="certificateParameters">
+        <Property name="dataProvider">certificateTypeDao#getCertificateParameter</Property>
+        <Property name="parameter">$${this.id}</Property>
+        <Property name="dataType">[CertificateParameter]</Property>
+      </Reference>
+    </DataType>
+    <DataType name="Certificate">
+      <Property name="creationType">com.hcg.certificatesystem.model.Certificate</Property>
+      <PropertyDef name="id">
+        <Property name="dataType">String</Property>
+      </PropertyDef>
+      <PropertyDef name="certificateName">
+        <Property name="dataType">String</Property>
+      </PropertyDef>
+      <PropertyDef name="certificateType">
+        <Property name="dataType">CertificateType</Property>
+        <Property name="submittable">false</Property>
+      </PropertyDef>
+      <PropertyDef name="certificateTypeLevel">
+        <Property name="propertyPath">certificateType.level</Property>
+        <Property name="submittable">false</Property>
+      </PropertyDef>
+      <PropertyDef name="serialNumber">
+        <Property name="dataType">String</Property>
+      </PropertyDef>
+      <PropertyDef name="beginDate">
+        <Property name="dataType">Date</Property>
+      </PropertyDef>
+      <PropertyDef name="user">
+        <Property name="dataType">User</Property>
+      </PropertyDef>
+      <Reference name="certificateParameterValues">
+        <Property name="dataProvider">certificateParameterValueDao#getCertificateParameterValues</Property>
+        <Property name="parameter">$${this.id}</Property>
+        <Property name="dataType">[CertificateParameterValue]</Property>
+      </Reference>
+      <Reference name="certificateValidHistories">
+        <Property name="dataType">[CertificateValidHistory]</Property>
+        <Property name="parameter">$${this.id}</Property>
+        <Property name="dataProvider">certificateValidHistoryDao#getCertificateValidHistories</Property>
+      </Reference>
+      <Reference name="certificateCheckHistories">
+        <Property name="parameter">$${this.id}</Property>
+        <Property name="dataType">[CertificateCheckHistory]</Property>
+        <Property name="dataProvider">certificateCheckHistoryDao#getCertificateCheckHistories</Property>
+      </Reference>
+      <PropertyDef name="cname">
+        <Property name="propertyPath">user.cname</Property>
+        <Property name="ignored">false</Property>
+        <Property name="readOnly">true</Property>
+        <Property name="submittable">false</Property>
+      </PropertyDef>
+      <PropertyDef name="uname">
+        <Property name="propertyPath">user.username</Property>
+        <Property name="readOnly">true</Property>
+        <Property name="submittable">false</Property>
+      </PropertyDef>
+    </DataType>
+    <DataType name="CertificateParameter">
+      <Property name="creationType">com.hcg.certificatesystem.model.CertificateParameter</Property>
+      <Property name="defaultDisplayProperty">certificateParameterName</Property>
+      <PropertyDef name="id">
+        <Property name="dataType">String</Property>
+      </PropertyDef>
+      <PropertyDef name="certificateParameterName">
+        <Property name="dataType">String</Property>
+      </PropertyDef>
+      <PropertyDef name="valueType">
+        <Property name="dataType">String</Property>
+      </PropertyDef>
+      <PropertyDef name="certificateType">
+        <Property name="dataType">CertificateType</Property>
+      </PropertyDef>
+    </DataType>
+    <DataType name="User">
+      <Property name="creationType">com.bstek.bdf2.core.model.DefaultUser</Property>
+      <Property name="defaultDisplayProperty">cname</Property>
+      <PropertyDef name="username">
+        <Property name="dataType">String</Property>
+      </PropertyDef>
+      <PropertyDef name="password">
+        <Property name="dataType">String</Property>
+      </PropertyDef>
+      <PropertyDef name="salt">
+        <Property name="dataType">String</Property>
+      </PropertyDef>
+      <PropertyDef name="cname">
+        <Property name="dataType">String</Property>
+      </PropertyDef>
+      <PropertyDef name="ename">
+        <Property name="dataType">String</Property>
+      </PropertyDef>
+      <PropertyDef name="male">
+        <Property name="dataType">boolean</Property>
+      </PropertyDef>
+      <PropertyDef name="enabled">
+        <Property name="dataType">boolean</Property>
+      </PropertyDef>
+      <PropertyDef name="administrator">
+        <Property name="dataType">boolean</Property>
+      </PropertyDef>
+      <PropertyDef name="birthday">
+        <Property name="dataType">Date</Property>
+      </PropertyDef>
+      <PropertyDef name="mobile">
+        <Property name="dataType">String</Property>
+      </PropertyDef>
+      <PropertyDef name="address">
+        <Property name="dataType">String</Property>
+      </PropertyDef>
+      <PropertyDef name="email">
+        <Property name="dataType">String</Property>
+      </PropertyDef>
+      <PropertyDef name="companyId">
+        <Property name="dataType">String</Property>
+      </PropertyDef>
+      <PropertyDef name="createDate">
+        <Property name="dataType">Date</Property>
+      </PropertyDef>
+    </DataType>
+    <DataType name="CertificateParameterValue">
+      <Property name="creationType">com.hcg.certificatesystem.model.CertificateParameterValue</Property>
+      <PropertyDef name="id">
+        <Property name="dataType">String</Property>
+      </PropertyDef>
+      <PropertyDef name="value">
+        <Property name="dataType">String</Property>
+      </PropertyDef>
+      <PropertyDef name="certificateParameter">
+        <Property name="dataType">CertificateParameter</Property>
+      </PropertyDef>
+    </DataType>
+    <DataType name="CertificateValidHistory">
+      <Property name="creationType">com.hcg.certificatesystem.model.CertificateValidHistory</Property>
+      <PropertyDef name="id">
+        <Property name="dataType">String</Property>
+      </PropertyDef>
+      <PropertyDef name="beginDate">
+        <Property name="dataType">Date</Property>
+      </PropertyDef>
+      <PropertyDef name="endDate">
+        <Property name="dataType">Date</Property>
+      </PropertyDef>
+      <PropertyDef name="status">
+        <Property name="dataType">String</Property>
+      </PropertyDef>
+      <PropertyDef name="sortNumber">
+        <Property name="dataType">int</Property>
+      </PropertyDef>
+    </DataType>
+    <DataType name="CertificateCheckHistory">
+      <Property name="creationType">com.hcg.certificatesystem.model.CertificateCheckHistory</Property>
+      <PropertyDef name="id">
+        <Property name="dataType">String</Property>
+      </PropertyDef>
+      <PropertyDef name="beginDate">
+        <Property name="dataType">Date</Property>
+      </PropertyDef>
+      <PropertyDef name="endDate">
+        <Property name="dataType">Date</Property>
+      </PropertyDef>
+      <PropertyDef name="status">
+        <Property name="dataType">String</Property>
+      </PropertyDef>
+      <PropertyDef name="sortNumber">
+        <Property name="dataType">int</Property>
+      </PropertyDef>
+    </DataType>
+  </Model>
+  <View>
+    <UpdateAction id="updateCertificate">
+      <Property name="dataResolver">certificateTypeGroupDao#saveCertificateTypeGroups</Property>
+      <Property name="executingMessage">正在保存...</Property>
+      <Property name="successMessage">保存成功!</Property>
+      <UpdateItem>
+        <Property name="dataSet">dataSetCertificateTypeGroup</Property>
+        <Property name="dataPath">!DIRTY_TREE</Property>
+        <Property name="refreshMode">value</Property>
+      </UpdateItem>
+    </UpdateAction>
+    <DataSet id="dataSetCertificateTypeGroup">
+      <Property name="dataProvider">certificateTypeGroupDao#getAll</Property>
+      <Property name="dataType">[CertificateTypeGroup]</Property>
+      <Property name="loadMode">lazy</Property>
+    </DataSet>
+    <DataSet id="dataSetUser">
+      <Property name="dataProvider">userDao#getUsers</Property>
+      <Property name="dataType">[User]</Property>
+      <Property name="pageSize">20</Property>
+    </DataSet>
+    <SplitPanel>
+      <Property name="position">380</Property>
+      <MainControl>
+        <Container>
+          <SplitPanel>
+            <Property name="direction">bottom</Property>
+            <Property name="position">50%</Property>
+            <MainControl>
+              <Container>
+                <Property name="containerUi">optional1</Property>
+                <ToolBar>
+                  <DataPilot>
+                    <ClientEvent name="onSubControlAction">var datas = view.get(&quot;#dataSetCertificateTypeGroup&quot;).getData(&quot;!currentCertificateType.certificates&quot;);
+var action = view.get(&quot;#updateCertificate&quot;);
+var dlgCertificate=view.get(&quot;#dlgCertificate&quot;);
+
+switch(arg.code){
+	case &quot;+&quot;:{
+		datas.insert();
+		dlgCertificate.show();
+		
+		var certificateType = view.get(&quot;#dataSetCertificateTypeGroup&quot;).getData(&quot;!currentCertificateType&quot;);
+		var certificateTypeName=certificateType.get(&quot;certificateTypeName&quot;);
+		var certificateTypeLevel=certificateType.get(&quot;level&quot;);
+		var afCertificate=view.get(&quot;#afCertificate&quot;);
+		var entity=afCertificate.get(&quot;entity&quot;);
+		
+		entity.set(&quot;certificateName&quot;,certificateTypeName);
+		entity.set(&quot;certificateTypeLevel&quot;,certificateTypeLevel);
+		afCertificate.set(&quot;entity&quot;,entity);
+		
+		arg.processDefault=false;
+		break;
+	}
+	case &quot;-&quot;:{
+		dorado.MessageBox.confirm(&quot;您真的想删除当前数据吗?&quot;,function(){	
+			datas.remove();
+			action.execute();
+		});
+		arg.processDefault=false;
+		break;
+	}
+}</ClientEvent>
+                    <Property name="itemCodes">pages,+,-,x</Property>
+                    <Property name="dataPath">!currentCertificateType.certificates</Property>
+                    <Property name="dataSet">dataSetCertificateTypeGroup</Property>
+                  </DataPilot>
+                  <ToolBarButton>
+                    <ClientEvent name="onClick">var datas = view.get(&quot;#dataSetCertificateTypeGroup&quot;).getData(&quot;!currentCertificateType.certificates&quot;);
+if(datas.current){
+	view.get(&quot;#dlgCertificate&quot;).show();
+}else{
+	dorado.MessageBox.alert(&quot;当前表没有信息可供编辑!&quot;);
+}</ClientEvent>
+                    <Property name="caption">编辑</Property>
+                    <Property name="icon">url(>skin>common/icons.gif) -200px 0px</Property>
+                  </ToolBarButton>
+                  <ToolBarButton>
+                    <ClientEvent name="onClick">var updateAction=view.get(&quot;#updateCertificate&quot;);
+var dgCertificate=view.get(&quot;#dataGridCertificate&quot;);
+var dgCertificateParameterValue=view.get(&quot;#dataGridCertificateParameterValue&quot;);
+var dgCertificateValidHistory=view.get(&quot;#dataGridCertificateValidHistory&quot;);
+var dsCertificateTypeGroup=view.get(&quot;#dataSetCertificateTypeGroup&quot;);
+var certificate=dgCertificate.getCurrentItem();
+var certificateId=certificate.get(&quot;id&quot;);
+var newCertificate;
+
+updateAction.execute({
+	callback : function(success, obj){
+		if (success) {
+			newCertificate = view.get(&quot;#dataSetCertificateTypeGroup&quot;).getData(&quot;!currentCertificateType.certificates[@.get('id')=='&quot;+certificateId+&quot;']&quot;);
+			dgCertificate.setCurrentEntity(newCertificate);
+			dgCertificate.refreshEntity(newCertificate);
+			certificate.reset(&quot;certificateParameterValues&quot;);
+			certificate.reset(&quot;certificateValidHistories&quot;);
+			dgCertificate.refresh();
+			dgCertificateParameterValue.refresh();
+			dgCertificateValidHistory.refresh();
+        }
+		else{alert(&quot;执行失败！发生异常：&quot; + obj);}}
+});
+</ClientEvent>
+                    <Property name="caption">保存</Property>
+                    <Property name="icon">url(>skin>common/icons.gif) -140px -20px</Property>
+                  </ToolBarButton>
+                </ToolBar>
+                <DataGrid id="dataGridCertificate">
+                  <Property name="dataPath">!currentCertificateType.certificates</Property>
+                  <Property name="dataSet">dataSetCertificateTypeGroup</Property>
+                  <Property name="dataType">Certificate</Property>
+                  <Property name="filterMode">clientSide</Property>
+                  <Property name="readOnly">true</Property>
+                  <Property name="scrollMode">lazyRender</Property>
+                  <Property name="selectionMode">multiRows</Property>
+                  <Property name="stretchColumnsMode">off</Property>
+                  <Property name="fixedColumnCount">5</Property>
+                  <IndicatorColumn/>
+                  <RowSelectorColumn/>
+                  <DataColumn>
+                    <Property name="name">certificateName</Property>
+                    <Property name="property">certificateName</Property>
+                    <Property name="caption">证书名称</Property>
+                    <Property name="width">160</Property>
+                  </DataColumn>
+                  <DataColumn name="certificateTypeLevel">
+                    <Property name="property">certificateTypeLevel</Property>
+                    <Property name="caption">等级</Property>
+                    <Property name="width">50</Property>
+                    <Property name="align">center</Property>
+                  </DataColumn>
+                  <DataColumn>
+                    <Property name="name">serialNumber</Property>
+                    <Property name="property">serialNumber</Property>
+                    <Property name="caption">证书编号</Property>
+                    <Property name="width">160</Property>
+                  </DataColumn>
+                  <DataColumn name="beginDate">
+                    <Property name="property">beginDate</Property>
+                    <Property name="caption">领证日期</Property>
+                    <Property name="align">center</Property>
+                  </DataColumn>
+                  <ColumnGroup>
+                    <Property name="caption">人员信息</Property>
+                    <DataColumn>
+                      <Property name="name">user</Property>
+                      <Property name="property">user</Property>
+                      <Property name="trigger">dsDropDownUser</Property>
+                      <Property name="filterable">false</Property>
+                      <Property name="visible">false</Property>
+                    </DataColumn>
+                    <DataColumn>
+                      <Property name="property">user.cname</Property>
+                      <Property name="trigger">dsDropDownUser</Property>
+                      <Property name="name">cname</Property>
+                      <Property name="editable">true</Property>
+                      <Property name="readOnly">true</Property>
+                      <Property name="caption">人员姓名</Property>
+                      <Property name="align">center</Property>
+                    </DataColumn>
+                    <DataColumn>
+                      <Property name="name">uname</Property>
+                      <Property name="property">user.username</Property>
+                      <Property name="editable">true</Property>
+                      <Property name="readOnly">true</Property>
+                      <Property name="caption">身份证号</Property>
+                      <Property name="width">160</Property>
+                      <Property name="align">center</Property>
+                      <Editor/>
+                    </DataColumn>
+                  </ColumnGroup>
+                </DataGrid>
+              </Container>
+            </MainControl>
+            <SideControl>
+              <Container>
+                <TabControl>
+                  <Property name="tabPlacement">bottom</Property>
+                  <ControlTab>
+                    <Property name="caption">证书信息</Property>
+                    <DataGrid id="dataGridCertificateParameterValue">
+                      <Property name="dataPath">!currentCertificateType.#certificates.certificateParameterValues</Property>
+                      <Property name="dataSet">dataSetCertificateTypeGroup</Property>
+                      <Property name="dataType">CertificateParameterValue</Property>
+                      <IndicatorColumn/>
+                      <RowNumColumn/>
+                      <DataColumn>
+                        <Property name="name">certificateParameter</Property>
+                        <Property name="property">certificateParameter</Property>
+                        <Property name="readOnly">true</Property>
+                        <Property name="caption">属性名称</Property>
+                      </DataColumn>
+                      <DataColumn>
+                        <ClientEvent name="onRenderCell">/*$(arg.dom).empty().xCreate({&#xD;
+    tagName: &quot;A&quot;,&#xD;
+    href: $url(&quot;com.hcg.certificatesystem.view.CertificateTypeMaintain.d&quot;),&#xD;
+    target: &quot;_blank&quot;,&#xD;
+    content: arg.data.get(&quot;value&quot;)&#xD;
+});&#xD;
+*/&#xD;
+&#xD;
+/*arg.dom.style.background = (arg.data.get(&quot;value&quot;) &lt; 1) ? &quot;#fcc5c5&quot; : &quot;&quot;;&#xD;
+arg.processDefault = true;&#xD;
+*/&#xD;
+&#xD;
+arg.dom.style.background = &quot;#d5e4fc&quot;;&#xD;
+arg.processDefault = true;</ClientEvent>
+                        <Property name="name">value</Property>
+                        <Property name="property">value</Property>
+                        <Property name="caption">属性值</Property>
+                      </DataColumn>
+                    </DataGrid>
+                  </ControlTab>
+                  <ControlTab>
+                    <Property name="caption">证书状态</Property>
+                    <TabControl>
+                      <Property name="tabPlacement">top</Property>
+                      <ControlTab>
+                        <Property name="caption">有效状态</Property>
+                        <DataGrid id="dataGridCertificateValidHistory">
+                          <Property name="dataPath">!currentCertificateType.#certificates.certificateValidHistories</Property>
+                          <Property name="dataSet">dataSetCertificateTypeGroup</Property>
+                          <Property name="dataType">CertificateValidHistory</Property>
+                          <Property name="sortMode">clientSide</Property>
+                          <Property name="filterMode">clientSide</Property>
+                          <Property name="selectionMode">multiRows</Property>
+                          <IndicatorColumn/>
+                          <RowNumColumn/>
+                          <DataColumn name="sortNumber">
+                            <Property name="property">sortNumber</Property>
+                            <Property name="readOnly">true</Property>
+                            <Property name="visible">false</Property>
+                          </DataColumn>
+                          <DataColumn name="beginDate">
+                            <Property name="property">beginDate</Property>
+                            <Property name="readOnly">true</Property>
+                            <Property name="caption">起始时间</Property>
+                          </DataColumn>
+                          <DataColumn name="endDate">
+                            <Property name="property">endDate</Property>
+                            <Property name="readOnly">true</Property>
+                            <Property name="caption">结束时间</Property>
+                          </DataColumn>
+                          <DataColumn name="status">
+                            <Property name="property">status</Property>
+                            <Property name="readOnly">true</Property>
+                            <Property name="caption">有效期状态</Property>
+                          </DataColumn>
+                        </DataGrid>
+                      </ControlTab>
+                      <ControlTab>
+                        <Property name="caption">复审状态</Property>
+                        <DataGrid id="dataGridCertificateCheckHistory">
+                          <Property name="dataPath">!currentCertificateType.#certificates.certificateCheckHistories</Property>
+                          <Property name="dataSet">dataSetCertificateTypeGroup</Property>
+                          <Property name="dataType">CertificateCheckHistory</Property>
+                          <Property name="readOnly">true</Property>
+                          <IndicatorColumn/>
+                          <RowNumColumn/>
+                          <DataColumn name="sortNumber">
+                            <Property name="property">sortNumber</Property>
+                            <Property name="visible">false</Property>
+                          </DataColumn>
+                          <DataColumn name="beginDate">
+                            <Property name="property">beginDate</Property>
+                            <Property name="visible">false</Property>
+                          </DataColumn>
+                          <DataColumn name="endDate">
+                            <Property name="property">endDate</Property>
+                            <Property name="caption">复审时间</Property>
+                          </DataColumn>
+                          <DataColumn name="status">
+                            <Property name="property">status</Property>
+                            <Property name="caption">复审周期状态</Property>
+                          </DataColumn>
+                        </DataGrid>
+                      </ControlTab>
+                    </TabControl>
+                  </ControlTab>
+                  <ControlTab>
+                    <Property name="caption">证书附件</Property>
+                  </ControlTab>
+                </TabControl>
+              </Container>
+            </SideControl>
+          </SplitPanel>
+        </Container>
+      </MainControl>
+      <SideControl>
+        <Container>
+          <SplitPanel>
+            <Property name="position">190</Property>
+            <MainControl>
+              <DataTree id="CertificateTypeTree">
+                <Property name="dataPath">!currentCertificateTypeGroup.certificateTypes</Property>
+                <Property name="dataSet">dataSetCertificateTypeGroup</Property>
+                <Property name="currentNodeDataPath">currentCertificateType</Property>
+                <BindingConfigs>
+                  <BindingConfig>
+                    <Property name="name">certificateTypes</Property>
+                    <Property name="labelProperty">certificateTypeName</Property>
+                    <Property name="icon">url(>skin>common/icons.gif) -60px -40px</Property>
+                  </BindingConfig>
+                </BindingConfigs>
+              </DataTree>
+            </MainControl>
+            <SideControl>
+              <DataTree id="CertificateTypeGroupTree">
+                <Property name="dataSet">dataSetCertificateTypeGroup</Property>
+                <Property name="currentNodeDataPath">currentCertificateTypeGroup</Property>
+                <BindingConfigs>
+                  <BindingConfig>
+                    <Property name="name">certificateTypeGroups</Property>
+                    <Property name="labelProperty">certificateTypeGroupName</Property>
+                    <Property name="icon">url(>skin>common/icons.gif) -260px -40px</Property>
+                  </BindingConfig>
+                </BindingConfigs>
+              </DataTree>
+            </SideControl>
+          </SplitPanel>
+        </Container>
+      </SideControl>
+    </SplitPanel>
+    <DataSetDropDown id="dsDropDownUser">
+      <Property name="dataSet">dataSetUser</Property>
+      <Property name="displayProperty">cname</Property>
+      <Property name="dynaFilter">true</Property>
+      <Property name="autoOpen">true</Property>
+      <Property name="filterOnOpen">false</Property>
+      <Property name="filterOnTyping">true</Property>
+      <Property name="width">300</Property>
+      <DataColumn>
+        <Property name="name">username</Property>
+        <Property name="property">username</Property>
+        <Property name="caption">身份证</Property>
+        <Property name="width">150</Property>
+        <Editor/>
+      </DataColumn>
+      <DataColumn>
+        <Property name="property">cname</Property>
+        <Property name="name">cname</Property>
+        <Property name="caption">姓名</Property>
+        <Property name="width">150</Property>
+        <Editor/>
+      </DataColumn>
+    </DataSetDropDown>
+    <Dialog id="dlgCertificate">
+      <Property name="width">600</Property>
+      <Property name="height">400</Property>
+      <Property name="caption">数据编辑</Property>
+      <Buttons/>
+      <Children>
+        <ToolBar>
+          <ToolBarButton>
+            <ClientEvent name="onClick">var dgCertificate=view.get(&quot;#dataGridCertificate&quot;);
+var dgCertificateParameterValue=view.get(&quot;#dataGridCertificateParameterValue&quot;);
+var dsCertificateTypeGroup=view.get(&quot;#dataSetCertificateTypeGroup&quot;);
+var certificate=dgCertificate.getCurrentItem();
+var certificateId=certificate.get(&quot;id&quot;);
+var newCertificate=null;
+var dialog=view.get(&quot;#dlgCertificate&quot;);
+var updateAction=view.get(&quot;#updateCertificate&quot;);
+
+dorado.MessageBox.confirm(&quot;您真的要保存吗?&quot;,function(){
+	updateAction.execute({
+	callback : function(success, obj){
+		if (success) {
+			newCertificate = dsCertificateTypeGroup.getData(&quot;!currentCertificateType.certificates[@.get('id')=='&quot;+certificateId+&quot;']&quot;);
+			dgCertificate.setCurrentEntity(newCertificate);
+			dgCertificate.refreshEntity(newCertificate);
+			certificate.reset(&quot;certificateParameterValues&quot;);
+			dgCertificate.refresh();
+			dgCertificateParameterValue.refresh();
+			dialog.hide();
+        }
+		else{alert(&quot;执行失败！发生异常：&quot; + obj);}}
+});
+
+});
+
+
+
+
+
+
+</ClientEvent>
+            <Property name="caption">确定</Property>
+            <Property name="icon">url(>skin>common/icons.gif) -20px 0px</Property>
+          </ToolBarButton>
+          <ToolBarButton>
+            <ClientEvent name="onClick">var data=view.get(&quot;#dataSetCertificateTypeGroup&quot;).getData();
+var dialog=view.get(&quot;#dlgCertificate&quot;);
+dorado.MessageBox.confirm(&quot;您真的要取消当前操作吗？&quot;,function(){
+	data.cancel();
+	dialog.hide();
+});</ClientEvent>
+            <Property name="caption">取消</Property>
+            <Property name="icon">url(>skin>common/icons.gif) -40px 0px</Property>
+          </ToolBarButton>
+        </ToolBar>
+        <AutoForm id="afCertificate">
+          <Property name="cols">*,*</Property>
+          <Property name="dataSet">dataSetCertificateTypeGroup</Property>
+          <Property name="dataPath">!currentCertificateType.#certificates</Property>
+          <Property name="dataType">Certificate</Property>
+          <AutoFormElement id="certificateName">
+            <Property name="name">certificateName</Property>
+            <Property name="property">certificateName</Property>
+            <Property name="readOnly">true</Property>
+            <Property name="label">证书名称</Property>
+            <Editor/>
+          </AutoFormElement>
+          <AutoFormElement id="certificateTypeLevel">
+            <Property name="name">certificateTypeLevel</Property>
+            <Property name="property">certificateTypeLevel</Property>
+            <Property name="readOnly">true</Property>
+            <Property name="label">证书等级</Property>
+            <Editor/>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">serialNumber</Property>
+            <Property name="property">serialNumber</Property>
+            <Property name="label">证书编号</Property>
+            <Editor/>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">beginDate</Property>
+            <Property name="property">beginDate</Property>
+            <Property name="label">领证日期</Property>
+            <Editor/>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">user</Property>
+            <Property name="property">user</Property>
+            <Property name="trigger">dsDropDownUser</Property>
+            <Property name="label">证书所有者</Property>
+            <Editor/>
+          </AutoFormElement>
+        </AutoForm>
+      </Children>
+      <Tools/>
+    </Dialog>
+  </View>
+</ViewConfig>

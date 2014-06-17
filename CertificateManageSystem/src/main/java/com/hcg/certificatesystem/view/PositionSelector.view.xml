@@ -1,0 +1,244 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<ViewConfig>
+  <Arguments/>
+  <Context/>
+  <Model>
+    <DataType name="Department" parent="$dataTypeDept">
+      <Property name="creationType">com.bstek.bdf2.core.model.DefaultDept</Property>
+      <PropertyDef name="id">
+        <Property name="dataType">String</Property>
+      </PropertyDef>
+      <PropertyDef name="name">
+        <Property name="dataType">String</Property>
+      </PropertyDef>
+      <PropertyDef name="desc">
+        <Property name="dataType">String</Property>
+      </PropertyDef>
+      <PropertyDef name="companyId">
+        <Property name="dataType">String</Property>
+      </PropertyDef>
+      <PropertyDef name="createDate">
+        <Property name="dataType">Date</Property>
+      </PropertyDef>
+      <PropertyDef name="parentId">
+        <Property name="dataType">String</Property>
+      </PropertyDef>
+      <Reference name="children">
+        <Property name="dataProvider">bdf2.deptSelect#loadDepts</Property>
+        <Property name="dataType">[Department]</Property>
+        <Property name="parameter">$${this.id}</Property>
+      </Reference>
+    </DataType>
+  </Model>
+  <View>
+    <Dialog id="$dialogPositionSelect">
+      <Property name="center">true</Property>
+      <Property name="modal">true</Property>
+      <Property name="width">800</Property>
+      <Property name="height">450</Property>
+      <Buttons/>
+      <Children>
+        <DataSet id="$dataSetPositionForSelect">
+          <Property name="dataType">[$dataTypePosition]</Property>
+          <Property name="dataProvider">positionDeptDao#getPositionsByDept</Property>
+          <ClientEvent name="onReady" signature="self,arg">self.move=function(){
+	var ds=view.id("$dataSetPositionForSelect");
+	var data=ds.getData("#");
+	if(data){
+		var targetData=view.id("$dataSetPositionSelected").getData();
+		var insertAble=true;
+		targetData.each(function(user){
+			if(user.get("id")==data.get("id")){
+				insertAble=false;
+				return false;
+			}
+		});
+		if(insertAble){
+			var max=view.id("$dialogPositionSelect").maxSelect;
+			if(max &amp;&amp; targetData.toArray().length&gt;=max){
+				dorado.MessageBox.alert("褰撳墠鏈�鍙厑璁搁�鎷"+max+"矖浣嶏紒");
+				return;
+			}
+			targetData.insert(data.toJSON());
+			data.remove();
+		}else{
+			dorado.MessageBox.alert("褰撳墠宀椾綅宸插瓨鍦紒");
+		}
+	}else{
+		dorado.MessageBox.alert("没有选中的岗位信息");
+	}	
+}
+</ClientEvent>          <ClientEvent name="onDataLoad" signature="self,arg">var movedData=view.id("$dataSetPositionSelected").getData();
+var data=self.getData();
+if(movedData){
+	data.each(function(entity){
+		movedData.each(function(movedEntity){
+			if(entity.get("id")==movedEntity.get("id")){
+				entity.remove();
+			}
+		});
+	});
+}
+var dialog=view.id("$dialogPositionSelect");
+var selected=dialog.selected
+if(selected){
+	data.each(function(entity){
+		for(var i=0;i&lt;selected.length;i++){
+			if(selected[i]==entity.get("id")){
+				entity.remove();
+				break;
+			}
+		}
+	});
+}
+
+</ClientEvent>        </DataSet>        <DataSet id="$dataSetPositionSelected">          <Property name="dataType">[$dataTypePosition]</Property>
+          <ClientEvent name="onReady" signature="self,arg">self.remove=function(){
+	var data=view.id("$dataSetPositionSelected").getData("#");
+	if(data){
+		data.remove();
+		view.id("$dataSetPositionForSelect").flushAsync();
+	}else{
+		dorado.MessageBox.alert("没有选中的岗位信息");
+	}	
+}</ClientEvent>
+        </DataSet>
+        <DataSet id="dsDepartment">
+          <Property name="dataType">[Department]</Property>
+          <Property name="dataProvider">bdf2.deptMaintain#loadDepts</Property>
+        </DataSet>
+        <ToolBar>
+          <ToolBarButton>
+            <Property name="caption">添加</Property>
+            <Property name="visible">true</Property>
+            <Property name="icon">url(&gt;skin&gt;common/icons.gif) -120px 0px</Property>
+            <ClientEvent name="onClick" signature="self,arg">view.id("$dataSetPositionForSelect").move();</ClientEvent>
+          </ToolBarButton>
+          <ToolBarButton>
+            <Property name="caption">删除</Property>
+            <Property name="visible">true</Property>
+            <Property name="icon">url(&gt;skin&gt;common/icons.gif) -140px 0px</Property>
+            <ClientEvent name="onClick" signature="self,arg">view.id("$dataSetPositionSelected").remove();</ClientEvent>
+          </ToolBarButton>
+          <ToolBarButton>
+            <Property name="caption">确定</Property>
+            <Property name="icon">url(skin&gt;common/icons.gif) -140px -20px</Property>
+            <ClientEvent name="onClick" signature="self,arg">var data=view.id("$dataSetPositionSelected").getData();
+if(data.isEmpty()){
+	dorado.MessageBox.alert("请选择一个岗位后再进行此操作");
+}
+view.id("$dialogPositionSelect").callback(data.toJSON());</ClientEvent>
+          </ToolBarButton>
+          <ToolBarButton>
+            <Property name="caption">取消</Property>
+            <Property name="icon">url(skin&gt;common/icons.gif) -40px 0px</Property>
+            <ClientEvent name="onClick" signature="self,arg">view.id("$dialogPositionSelect").hide();</ClientEvent>
+          </ToolBarButton>
+        </ToolBar>
+        <Container>
+          <SplitPanel>
+            <Property name="direction">left</Property>
+            <Property name="position">450</Property>
+            <MainControl>
+              <DataGrid id="$dataGridPositionSelected" layoutConstraint="right">
+                <Property name="readOnly">true</Property>
+                <Property name="dataSet">$dataSetPositionSelected</Property>
+                <DataColumn>
+                  <Property name="property">name</Property>
+                  <Property name="name">name</Property>
+                </DataColumn>
+                <ClientEvent name="onDoubleClick" signature="self,arg">view.id("$dataSetPositionSelected").remove();
+</ClientEvent>              </DataGrid>            </MainControl>            <SideControl>              <SplitPanel>                <Property name="position">200</Property>
+                <MainControl>
+                  <DataGrid id="$dataGridPositionForSelect" layoutConstraint="left">
+                    <Property name="dataSet">$dataSetPositionForSelect</Property>
+                    <Property name="readOnly">true</Property>
+                    <Property name="filterMode">clientSide</Property>
+                    <Property name="showFilterBar">false</Property>
+                    <DataColumn>
+                      <Property name="property">name</Property>
+                      <Property name="name">name</Property>
+                    </DataColumn>
+                    <ClientEvent name="onDoubleClick" signature="self,arg">view.id("$dataSetPositionForSelect").move();
+</ClientEvent>                  </DataGrid>                </MainControl>                <SideControl>                  <DataTree id="DepartmentTree" layoutConstraint="left">                    <Property name="dataSet">dsDepartment</Property>
+                    <Property name="defaultIcon"> url(&gt;skin&gt;common/icons.gif) -260px -40px</Property>
+                    <Property name="currentNodeDataPath">CurrentDept</Property>
+                    <Property name="draggable">true</Property>
+                    <Property name="dragTags">dept</Property>
+                    <Property name="droppableTags">dept</Property>
+                    <Property name="droppable">true</Property>
+                    <Property name="dropMode">onOrInsertItems</Property>
+                    <Property name="allowNoCurrent">true</Property>
+                    <BindingConfigs>
+                      <BindingConfig>
+                        <Property name="recursive">true</Property>
+                        <Property name="expandLevel">1</Property>
+                        <Property name="labelProperty">name</Property>
+                        <Property name="icon">url(&gt;skin&gt;common/icons.gif) 0px -20px</Property>
+                        <Property name="childrenProperty">children</Property>
+                      </BindingConfig>
+                    </BindingConfigs>
+                    <ClientEvent name="onContextMenu" signature="self,arg">view.id("menuDepts").show({
+	position:{
+		left:arg.event.pageX,
+		top:arg.event.pageY
+	}
+});</ClientEvent>
+                    <ClientEvent name="onDraggingSourceDrop" signature="self,arg">var draggingInfo=arg.draggingInfo;
+if(!draggingInfo){
+	return true;
+}
+var parentNode=draggingInfo.get("targetObject");
+if(!parentNode){
+	return true;
+}
+var parentId=parentNode.get("data.id");
+parentNode.get("nodes").each(function(node){
+	var data=node.get("data");
+	data.set("parentId",parentId);
+});
+view.id("updateActionSaveDepts").execute();</ClientEvent>
+                    <ClientEvent name="beforeCurrentChange" signature="self,arg">var node=arg.oldCurrent;
+if(node){
+	var data=node.get("data");
+	if(data &amp;&amp; data.state!=dorado.Entity.STATE_NONE){
+		view.id("updateActionSaveDepts").execute();
+		if(data.validate()!="ok"){
+			arg.processDefault=false;
+		}
+	}
+}</ClientEvent>
+                    <ClientEvent name="onClick" signature="self,arg">var DepartmentTree=view.get("#DepartmentTree");
+var currentDepartmentEntity=DepartmentTree.get("currentEntity");
+var departmentId=currentDepartmentEntity.get("id");
+var dsPosition=view.get("#$dataSetPositionForSelect");
+
+dsPosition.set("parameter", {id:departmentId}).flushAsync();
+
+</ClientEvent>                  </DataTree>                </SideControl>              </SplitPanel>            </SideControl>          </SplitPanel>        </Container>      </Children>      <Tools/>      <ClientEvent name="onCreate" signature="self,arg">self.$show=function(config){
+	if(!config.callback){
+		dorado.MessageBox.alert("璇峰厛涓哄綋鍓峝ialog娣诲姞涓�釜鍚嶄负callback鐨勫嚱鏁�");
+		return;
+	}
+	self.callback=config.callback;
+	if(config.width){
+		self.set("width",config.width);
+	}
+	
+	if(config.maxSelect){
+		self.maxSelect=config.maxSelect;
+	}
+	
+	if(config.height){
+		self.set("height",config.height);
+	}
+	if(config.caption){
+		self.set("caption",config.caption);
+	}
+	if(config.selected){
+		self.selected=config.selected;
+	}
+	self.show();
+}
+</ClientEvent>    </Dialog>  </View></ViewConfig>

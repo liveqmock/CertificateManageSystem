@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ViewConfig>
+  <Arguments/>
+  <Context/>
+  <Model>
+    <DataType name="CertificateTypeGroup">
+      <Property name="creationType">com.hcg.certificatesystem.model.CertificateTypeGroup</Property>
+      <PropertyDef name="certificateTypeGroupName">
+        <Property name="dataType">String</Property>
+      </PropertyDef>
+      <PropertyDef name="levels">
+        <Property name="dataType">int</Property>
+      </PropertyDef>
+      <PropertyDef name="sortType">
+        <Property name="dataType">String</Property>
+      </PropertyDef>
+      <PropertyDef name="id">
+        <Property name="dataType">String</Property>
+      </PropertyDef>
+    </DataType>
+  </Model>
+  <View>
+    <Property name="title">CertificateTypeGroup信息维护</Property>
+    <DataSet id="dataSetCertificateTypeGroup">
+      <Property name="dataProvider">certificateTypeGroupDao#getAll</Property>
+      <Property name="dataType">[CertificateTypeGroup]</Property>
+    </DataSet>
+    <UpdateAction id="actionUpdate">
+      <Property name="successMessage">保存成功!</Property>
+      <Property name="executingMessage">正在保存...</Property>
+      <Property name="dataResolver">certificateTypeGroupDao#saveCertificateTypeGroups</Property>
+      <UpdateItem>
+        <Property name="dataSet">dataSetCertificateTypeGroup</Property>
+      </UpdateItem>
+    </UpdateAction>
+    <ToolBar>
+      <DataPilot>
+        <ClientEvent name="onSubControlAction">var datas = view.get(&quot;#dataSetCertificateTypeGroup.data&quot;);
+var action = view.get(&quot;#actionUpdate&quot;);
+switch(arg.code){
+	case &quot;+&quot;:{
+		datas.insert();
+		view.get(&quot;#dialogCertificateTypeGroup&quot;).show();
+		arg.processDefault=false;
+		break;
+	}
+	case &quot;-&quot;:{
+		dorado.MessageBox.confirm(&quot;您真的想删除当前数据吗?&quot;,function(){
+			datas.remove();
+			action.execute();
+		});
+		arg.processDefault=false;
+		break;
+	}
+}</ClientEvent>
+        <Property name="dataSet">dataSetCertificateTypeGroup</Property>
+        <Property name="itemCodes">pages,+,-,x</Property>
+      </DataPilot>
+      <Separator/>
+      <ToolBarButton>
+        <ClientEvent name="onClick">var data=view.get(&quot;#dataSetCertificateTypeGroup.data&quot;);
+if(data.current){
+	view.get(&quot;#dialogCertificateTypeGroup&quot;).show();
+}else{
+	dorado.MessageBox.alert(&quot;当前表没有信息可供编辑!&quot;);
+}</ClientEvent>
+        <Property name="caption">修改</Property>
+        <Property name="icon">url(>skin>common/icons.gif) -200px -0px</Property>
+      </ToolBarButton>
+      <ToolBarButton>
+        <Property name="caption">保存</Property>
+        <Property name="icon">url(>skin>common/icons.gif) -140px -20px</Property>
+        <Property name="action">actionUpdate</Property>
+      </ToolBarButton>
+    </ToolBar>
+    <DataGrid>
+      <Property name="dataSet">dataSetCertificateTypeGroup</Property>
+      <Property name="dataType">CertificateTypeGroup</Property>
+      <Property name="readOnly">true</Property>
+      <Property name="filterMode">serverSide</Property>
+      <Property name="selectionMode">multiRows</Property>
+      <IndicatorColumn/>
+      <RowSelectorColumn/>
+      <DataColumn>
+        <Property name="name">certificateTypeGroupName</Property>
+        <Property name="property">certificateTypeGroupName</Property>
+        <Property name="caption">证书组名称</Property>
+        <Property name="align">center</Property>
+        <Property name="width">300</Property>
+      </DataColumn>
+      <DataColumn>
+        <Property name="name">levels</Property>
+        <Property name="property">levels</Property>
+        <Property name="caption">所包含证书等级总数</Property>
+        <Property name="align">center</Property>
+        <Property name="width">120</Property>
+      </DataColumn>
+      <DataColumn>
+        <Property name="name">sortType</Property>
+        <Property name="property">sortType</Property>
+        <Property name="caption">等级排序方式</Property>
+        <Property name="align">center</Property>
+        <Property name="width">120</Property>
+      </DataColumn>
+    </DataGrid>
+    <Dialog id="dialogCertificateTypeGroup">
+      <Property name="center">true</Property>
+      <Property name="width">600</Property>
+      <Property name="height">400</Property>
+      <Property name="modal">true</Property>
+      <Property name="caption">数据编辑</Property>
+      <Buttons/>
+      <Children>
+        <ToolBar>
+          <ToolBarButton>
+            <ClientEvent name="onClick">var dialog=view.get(&quot;#dialogCertificateTypeGroup&quot;);
+var action=view.get(&quot;#actionUpdate&quot;);
+dorado.MessageBox.confirm(&quot;您真的要保存吗?&quot;,function(){
+	action.execute(function(){
+		dialog.hide();
+	});
+})</ClientEvent>
+            <Property name="caption">确定</Property>
+            <Property name="icon">url(>skin>common/icons.gif) -20px 0px</Property>
+          </ToolBarButton>
+          <ToolBarButton>
+            <ClientEvent name="onClick">var data=view.get(&quot;#dataSetCertificateTypeGroup&quot;).getData();
+var dialog=view.get(&quot;#dialogCertificateTypeGroup&quot;);
+dorado.MessageBox.confirm(&quot;您真的要取消当前操作吗？&quot;,function(){
+	data.cancel();
+	dialog.hide();
+});</ClientEvent>
+            <Property name="caption">取消</Property>
+            <Property name="icon">url(>skin>common/icons.gif) -40px 0px</Property>
+          </ToolBarButton>
+        </ToolBar>
+        <AutoForm>
+          <Property name="dataSet">dataSetCertificateTypeGroup</Property>
+          <Property name="cols">*,*</Property>
+          <AutoFormElement>
+            <Property name="name">certificateTypeGroupName</Property>
+            <Property name="property">certificateTypeGroupName</Property>
+            <Property name="label">证书组名称</Property>
+            <Editor/>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">levels</Property>
+            <Property name="property">levels</Property>
+            <Property name="label">包含的证书等级总数</Property>
+            <Editor>
+              <NumberSpinner>
+                <Property name="min">0</Property>
+              </NumberSpinner>
+            </Editor>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">sortType</Property>
+            <Property name="property">sortType</Property>
+            <Property name="trigger">dropDownSortType</Property>
+            <Property name="label">等级排序方式</Property>
+            <Editor/>
+          </AutoFormElement>
+        </AutoForm>
+      </Children>
+      <Tools/>
+    </Dialog>
+    <ListDropDown id="dropDownSortType">
+      <Property name="items">升序,降序</Property>
+    </ListDropDown>
+  </View>
+</ViewConfig>
